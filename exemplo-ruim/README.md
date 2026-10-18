@@ -42,6 +42,26 @@ com.exemplo.treinadores
 | Um método por combinação de filtro + escada de `if/else` | `TreinadorRepository`, `TreinadorController.listar` |
 | Ordenação fixa; `sort` é recebido e ignorado | `TreinadorRepository` |
 | Combinação de filtro não prevista devolve tudo sem avisar | `TreinadorController.listar` |
+| Filtros `nome` e `sort` ignorados em silêncio quando combinados | `TreinadorController.listar` |
+
+### Filtros ignorados em silêncio
+
+A escada de `if/else` só conhece algumas combinações. Quando a combinação pedida não
+tem um ramo próprio, o controller cai no primeiro ramo que "quase" serve e descarta o
+resto, sem erro e sem aviso:
+
+```bash
+curl 'localhost:8080/treinadores?esporte=futebol&ativo=true&nome=ana&sort=nome,desc'
+```
+
+- `nome` só é usado junto com `esporte` **e** `nivel` (`findByNomeAndEsporteAndNivel`).
+  Sem `nivel`, a requisição acima cai em `findByEsporteAndAtivo` e o `nome=ana` é jogado fora.
+- `sort` nunca é usado. Com `esporte`, a ordem é sempre por nome, crescente, fixa na consulta;
+  sem `esporte`, a lista sai na ordem das três tabelas, uma depois da outra. O `,desc` não faz nada.
+
+A resposta é `200` e parece certa, mas pode trazer treinadores que não se chamam "ana", em
+uma ordem diferente da pedida. No `exemplo-ideal`, a mesma URL filtra por nome e ordena
+como pedido, e uma chave desconhecida devolve `400`.
 
 ## Testes que falham de propósito
 

@@ -13,14 +13,19 @@ import java.util.List;
 
 // T = tipo de treinador, R = tipo de pedido. Cada esporte só diz o que é diferente.
 @Transactional
-public abstract class TreinadorService<T extends Treinador, R extends TreinadorRequest> implements BaseService<T, Long> {
+public abstract class TreinadorService<
+        T extends Treinador, R extends TreinadorRequest>
+        implements BaseService<T, Long> {
 
     private final Class<T> tipo;
     protected final TreinadorRepository repo;
     private final PessoaRepository pessoas;
     private final EsporteRepository esportes;
 
-    protected TreinadorService(Class<T> tipo, TreinadorRepository repo, PessoaRepository pessoas, EsporteRepository esportes) {
+    protected TreinadorService(Class<T> tipo,
+                               TreinadorRepository repo,
+                               PessoaRepository pessoas,
+                               EsporteRepository esportes) {
         this.tipo = tipo;
         this.repo = repo;
         this.pessoas = pessoas;

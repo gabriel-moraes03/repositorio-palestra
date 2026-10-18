@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-// Tabela de regras: chave do filtro -> Specification. Filtro novo = uma linha nova na tabela.
+// Tabela de regras: chave do filtro -> Specification.
+// Filtro novo = uma linha nova na tabela.
 @Component
 public class TreinadorFiltro {
 
@@ -16,23 +17,29 @@ public class TreinadorFiltro {
     }
 
     private final Map<String, Regra> regras = Map.of(
-            "esporte", valor -> (root, query, cb) ->
-                    cb.equal(cb.lower(root.get("esporte").get("nome")), valor.toLowerCase()),
+            "esporte", valor -> (root, query, cb) -> cb.equal(
+                    cb.lower(root.get("esporte").get("nome")),
+                    valor.toLowerCase()),
             "ativo", valor -> {
                 boolean ativo = paraBoolean(valor);
-                return (root, query, cb) -> cb.equal(root.get("ativo"), ativo);
+                return (root, query, cb) ->
+                        cb.equal(root.get("ativo"), ativo);
             },
-            "nome", valor -> (root, query, cb) ->
-                    cb.like(cb.lower(root.get("pessoa").get("nome")), "%" + valor.toLowerCase() + "%")
+            "nome", valor -> (root, query, cb) -> cb.like(
+                    cb.lower(root.get("pessoa").get("nome")),
+                    "%" + valor.toLowerCase() + "%")
     );
 
-    // Junta com AND as regras pedidas. Chave desconhecida é erro, nunca é ignorada.
+    // Junta com AND as regras pedidas.
+    // Chave desconhecida é erro, nunca é ignorada.
     public Specification<Treinador> criar(Map<String, String> params) {
         Specification<Treinador> spec = (root, query, cb) -> cb.conjunction();
         for (Map.Entry<String, String> param : params.entrySet()) {
             Regra regra = regras.get(param.getKey());
             if (regra == null) {
-                throw new ErroDeDominio("Filtro desconhecido: " + param.getKey(), param.getKey());
+                throw new ErroDeDominio(
+                        "Filtro desconhecido: " + param.getKey(),
+                        param.getKey());
             }
             spec = spec.and(regra.criar(param.getValue()));
         }
