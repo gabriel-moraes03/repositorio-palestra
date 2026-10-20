@@ -29,6 +29,10 @@ public abstract class Treinador {
     private boolean ativo;
     private LocalDate dataInicio;
 
+    // Sobrescrita: cada esporte descreve a própria habilitação.
+    // Quem chama não precisa saber qual é o esporte.
+    public abstract String habilitacao();
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Pessoa getPessoa() { return pessoa; }

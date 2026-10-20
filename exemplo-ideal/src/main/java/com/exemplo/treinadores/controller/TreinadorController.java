@@ -30,6 +30,12 @@ public class TreinadorController {
         return mapper.paraResposta(consulta.buscar(id));
     }
 
+    // Um método para qualquer esporte: o objeto decide (sobrescrita)
+    @GetMapping("/{id}/habilitacao")
+    public String habilitacao(@PathVariable Long id) {
+        return consulta.buscar(id).habilitacao();
+    }
+
     // Ex.: /treinadores?esporte=futebol&ativo=true&nome=ana&sort=nome,desc
     @GetMapping
     public List<TreinadorResponse> listar(@RequestParam Map<String, String> params) {

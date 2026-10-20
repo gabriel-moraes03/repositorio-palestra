@@ -10,6 +10,11 @@ public class TreinadorVolei extends Treinador {
     private String certificadoCbv;
     private LocalDate validadeCertificado;
 
+    @Override
+    public String habilitacao() {
+        return "Certificado CBV " + certificadoCbv;
+    }
+
     public String getCertificadoCbv() { return certificadoCbv; }
     public void setCertificadoCbv(String certificadoCbv) { this.certificadoCbv = certificadoCbv; }
     public LocalDate getValidadeCertificado() { return validadeCertificado; }

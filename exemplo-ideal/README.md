@@ -44,6 +44,7 @@ com.exemplo.treinadores
 | **Bug 2** (update sem transação + `catch` vazio) | `@Transactional` no `TreinadorService` vale para os três esportes, e nenhuma exceção é engolida |
 | Três formatos de erro | `ApiExceptionHandler` + `ApiError`: sempre `{status, mensagem, campo}` |
 | `try/catch` em cada controller | Controllers sem `try/catch`; exceção de negócio é `ErroDeDominio` |
+| `descrever(Object t)` com `instanceof` por esporte | Sobrescrita: `Treinador.habilitacao()` abstrato, cada subclasse com `@Override` |
 | `cadastrarSimples` / `cadastrarComInicio` com corpo copiado | Sobrecarga que delega: `cadastrar(req)` chama `cadastrar(req, inicio)` |
 | Um `findBy...` por combinação + escada de `if/else` | `TreinadorFiltro`: tabela `Map<String, Regra>`; `repo.findAll(spec, ordem)` |
 | Combinação não prevista devolve tudo sem avisar | Chave desconhecida lança `ErroDeDominio` → 400 |
