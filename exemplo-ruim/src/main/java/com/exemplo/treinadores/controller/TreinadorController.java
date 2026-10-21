@@ -1,5 +1,8 @@
 package com.exemplo.treinadores.controller;
 
+import com.exemplo.treinadores.model.TreinadorBasquete;
+import com.exemplo.treinadores.model.TreinadorFutebol;
+import com.exemplo.treinadores.model.TreinadorVolei;
 import com.exemplo.treinadores.repository.TreinadorBasqueteRepository;
 import com.exemplo.treinadores.repository.TreinadorFutebolRepository;
 import com.exemplo.treinadores.repository.TreinadorRepository;
@@ -38,6 +41,25 @@ public class TreinadorController {
         if (voleiRepo.findById(id).isPresent()) return ResponseEntity.ok(voleiRepo.findById(id).get());
         if (basqueteRepo.findById(id).isPresent()) return ResponseEntity.ok(basqueteRepo.findById(id).get());
         return ResponseEntity.notFound().build();
+    }
+
+    // Pergunta o tipo e decide no if. Esporte novo = mais um else if aqui.
+    @GetMapping("/{id}/habilitacao")
+    public ResponseEntity<String> habilitacao(@PathVariable Long id) {
+        Object t = buscar(id).getBody();
+        if (t == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(descrever(t));
+    }
+
+    private String descrever(Object t) {
+        if (t instanceof TreinadorFutebol f) {
+            return "Licença " + f.getNivelLicenca();
+        } else if (t instanceof TreinadorVolei v) {
+            return "Certificado CBV " + v.getCertificadoCbv();
+        } else if (t instanceof TreinadorBasquete b) {
+            return "Registro " + b.getRegistroFederacao();
+        }
+        return "";
     }
 
     // Escada de if/else: uma combinação de filtros por ramo. O sort é recebido e ignorado.

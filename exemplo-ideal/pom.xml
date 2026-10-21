@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <!-- Sonar: sem servidor aqui. Rode com -Dsonar.host.url=... -Dsonar.token=... -->
+        <!-- Sonar: suba o servidor com docker compose up -d e rode ../sonar.sh (veja o README) -->
         <sonar.projectKey>palestra-ideal</sonar.projectKey>
         <sonar.projectName>Palestra - exemplo ideal</sonar.projectName>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>

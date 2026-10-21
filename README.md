@@ -52,7 +52,19 @@ Resultado esperado dos testes:
 
 ## SonarQube (opcional)
 
-Não há servidor neste repositório. Com um SonarQube rodando:
+Requer Docker. Sobe um SonarQube local e analisa os dois projetos:
+
+```bash
+docker compose up -d      # http://localhost:9000 (admin / admin); demora ~1 min para subir
+./sonar.sh                # cria o token e o Quality Gate "Palestra", depois analisa os dois
+docker compose down       # para tudo (os dados ficam nos volumes; use -v para apagar)
+```
+
+O gate "Palestra" avalia o código todo (confiabilidade A, segurança A, cobertura ≥ 70%,
+duplicação ≤ 3%). O "Sonar way" padrão só olha código novo e, na primeira análise, aprovaria os dois.
+Se você trocar a senha do admin, rode `SONAR_PASSWORD=nova ./sonar.sh`.
+
+Para analisar manualmente, com outro servidor:
 
 ```bash
 cd exemplo-ideal
